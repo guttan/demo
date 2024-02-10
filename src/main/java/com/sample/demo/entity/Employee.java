@@ -1,72 +1,57 @@
 package com.sample.demo.entity;
 
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
-import java.util.Objects;
-
-
 
 @Entity
 public class Employee {
 
-    private @Id
-    @GeneratedValue Long id;
-    private String name;
-    private String role;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long employeeId;
 
-    Employee() {}
+    private String employeeName;
 
-    public Employee(String name, String role) {
+    private float employeeSalary;
 
-        this.name = name;
-        this.role = role;
+    public Employee() {
     }
 
-    public Long getId() {
-        return this.id;
+    public Employee(Long employeeId, String employeeName, float employeeSalary) {
+        this.employeeId = employeeId;
+        this.employeeName = employeeName;
+        this.employeeSalary = employeeSalary;
     }
 
-    public String getName() {
-        return this.name;
+    public Employee( String employeeName, float employeeSalary) {
+        this.employeeName = employeeName;
+        this.employeeSalary = employeeSalary;
     }
 
-    public String getRole() {
-        return this.role;
+    public Long getEmployeeId() {
+        return employeeId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getEmployeeName() {
+        return employeeName;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
     }
 
-    @Override
-    public boolean equals(Object o) {
-
-        if (this == o)
-            return true;
-        if (!(o instanceof Employee))
-            return false;
-        Employee employee = (Employee) o;
-        return Objects.equals(this.id, employee.id) && Objects.equals(this.name, employee.name)
-                && Objects.equals(this.role, employee.role);
+    public float getEmployeeSalary() {
+        return employeeSalary;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.id, this.name, this.role);
-    }
-
-    @Override
-    public String toString() {
-        return "Employee{" + "id=" + this.id + ", name='" + this.name + '\'' + ", role='" + this.role + '\'' + '}';
+    public void setEmployeeSalary(float employeeSalary) {
+        this.employeeSalary = employeeSalary;
     }
 }

@@ -5,6 +5,8 @@ import java.util.List;
 import com.sample.demo.entity.Employee;
 import com.sample.demo.exception.EmployeeNotFoundException;
 import com.sample.demo.repository.EmployeeRepository;
+import com.sample.demo.service.EmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,52 +18,31 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 class EmployeeController {
 
-    private final EmployeeRepository repository;
+    @Autowired
+    private EmployeeService employeeService;
 
-    EmployeeController(EmployeeRepository repository) {
-        this.repository = repository;
+    @PostMapping("/employee")
+    public Employee saveEmployee(@RequestBody Employee employee) {
+        return employeeService.saveEmployee(employee);
     }
 
-
-    // Aggregate root
-    // tag::get-aggregate-root[]
-    @GetMapping("/employees")
-    List<Employee> all() {
-        return repository.findAll();
-    }
-    // end::get-aggregate-root[]
-
-    @PostMapping("/employees")
-    Employee newEmployee(@RequestBody Employee newEmployee) {
-        return repository.save(newEmployee);
+    @GetMapping("/employee")
+    public List<Employee> getAllEmployees() {
+        return employeeService.fetchAllEmployees();
     }
 
-    // Single item
-
-    @GetMapping("/employees/{id}")
-    Employee one(@PathVariable Long id) {
-
-        return repository.findById(id)
-                .orElseThrow(() -> new EmployeeNotFoundException(id));
+    @GetMapping("/employee/{id}")
+    public Employee getEmployeeById(@PathVariable("id") Long id) {
+        return employeeService.getEmployeeById(id);
     }
 
-    @PutMapping("/employees/{id}")
-    Employee replaceEmployee(@RequestBody Employee newEmployee, @PathVariable Long id) {
-
-        return repository.findById(id)
-                .map(employee -> {
-                    employee.setName(newEmployee.getName());
-                    employee.setRole(newEmployee.getRole());
-                    return repository.save(employee);
-                })
-                .orElseGet(() -> {
-                    newEmployee.setId(id);
-                    return repository.save(newEmployee);
-                });
+    @PutMapping("/employee/{id}")
+    public Employee updateEmployee(@PathVariable("id") Long id, @RequestBody Employee employee) {
+        return employeeService.updateEmployeeById(id, employee);
     }
 
-    @DeleteMapping("/employees/{id}")
-    void deleteEmployee(@PathVariable Long id) {
-        repository.deleteById(id);
+    @DeleteMapping("/employee/{id}")
+    public String deleteEmployee(@PathVariable("id") Long id) {
+        return employeeService.deleteDepartmentById(id);
     }
 }
