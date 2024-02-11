@@ -3,8 +3,6 @@ package com.sample.demo.controller;
 import java.util.List;
 
 import com.sample.demo.entity.Employee;
-import com.sample.demo.exception.EmployeeNotFoundException;
-import com.sample.demo.repository.EmployeeRepository;
 import com.sample.demo.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
